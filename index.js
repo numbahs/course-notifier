@@ -10,7 +10,7 @@ const {
 const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
 // Change these courses
-const WANTED_COURSES = ['10523', '10585', '10531', '10589', '10963'];
+const WANTED_COURSES = ['10523', '10585', '10532', '10589', '12088', '11167'];
 
 const sendCourseStatus = async wantedCourses => {
 	const xmlData = await axios.get(
@@ -22,7 +22,7 @@ const sendCourseStatus = async wantedCourses => {
 	Course.forEach(c => {
 		if (wantedCourses.indexOf(c.CallNumber) !== -1) {
 			const stat = c.Status === 'O' ? '✅ Open!' : '⛔️ Closed!';
-			message += `${c.Section}: ${stat} (${c.CurrentEnrollment}/${c.MaxEnrollment})\n`;
+			message += `${c.Section}: ${stat} (${c.MaxEnrollment - c.CurrentEnrollment}/${c.MaxEnrollment})\n`;
 		}
 	});
 	console.log(
